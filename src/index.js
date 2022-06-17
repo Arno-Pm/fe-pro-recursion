@@ -3,8 +3,18 @@
  * true, если есть различие, false. То есть проверяет каждое свойство, вне зависимости от вложенности,
  * делаем через рекурсию(а других вариантов и нет)
  */
-export const deepEqual = (obj, anotherObject) => {};
+export const deepEqual = (obj, anotherObject) => {
+    
+    return Object.entries(obj).every(function ([key, value]) {
 
+    if(typeof value !== 'object') { 
+        return value === anotherObject[key];
+    } else {
+      return deepEqual(value, anotherObject[key]);
+    }
+  });
+};
+  
 /**
  * Принимает объект, возвращает его глубокую копию, то есть ни одно свойство
  * не является ссылочным у другого объекта, точно возвращает новое.
