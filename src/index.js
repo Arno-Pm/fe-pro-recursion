@@ -28,4 +28,14 @@ export const deepCopy = (obj) => {};
  * Мы передаем объект, и должны вернуть массив уникальных названий свойств
  * То есть если у нас объект { name: { bohdan: { name: 'test' } } } вернет ['name', 'bohdan']
  */
-export const getAllObjectKeys = (obj) => {};
+export const getAllObjectKeys = (obj) => {
+
+    return Object.entries(obj).reduce(function (accum, [key, value]) {
+        if (typeof value === 'object') {
+          accum.push(key, ...getAllObjectKeys(value));
+        } else {
+          accum.push(key);
+        }
+        return [...new Set(accum)];
+      }, []);
+    };
