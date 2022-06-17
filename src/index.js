@@ -22,7 +22,22 @@ export const deepEqual = (obj, anotherObject) => {
  * то тогда в рекурсию. С объектом также. Поскольку массив при typeof возвращает object, чтобы
  * их различить берем метод Array.isArray и он на массивах вернет тру
  */
-export const deepCopy = (obj) => {};
+export const deepCopy = (obj) => {
+    
+    if (typeof obj !== 'object' || obj === null || obj === undefined) {
+      return obj;
+    }
+  
+    if (Array.isArray(obj)) {
+      return obj.map(function (elem) {
+        return deepCopy(elem);
+      });
+    } else {
+      return Object.entries(obj).reduce(function (accum, [key, value]) {
+        return (accum[key] = deepCopy(value), accum);
+      }, {});
+    }
+  };
 
 /**
  * Мы передаем объект, и должны вернуть массив уникальных названий свойств
